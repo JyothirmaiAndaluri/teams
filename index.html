@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        #output {
+            margin-top: 20px;
+        }
+        .team {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Team Generator</h1>
+    <button id="generateTeams">Select Teams</button>
+    <div id="output"></div>
+
+    <script>
+        function generateTeams() {
+            const totalMembers = 58; // Total number of members
+            const minTeamSize = 4;   // Minimum members in a team
+            const maxTeamSize = 5;   // Maximum members in a team
+            let members = Array.from({ length: totalMembers }, (_, i) => i + 1);
+            let teams = [];
+
+            while (members.length > 0) {
+                const teamSize = Math.min(
+                    Math.floor(Math.random() * (maxTeamSize - minTeamSize + 1)) + minTeamSize,
+                    members.length
+                );
+                let team = [];
+                for (let i = 0; i < teamSize; i++) {
+                    const randomIndex = Math.floor(Math.random() * members.length);
+                    team.push(members.splice(randomIndex, 1)[0]);
+                }
+                teams.push(team);
+            }
+
+            displayTeams(teams);
+        }
+
+        function displayTeams(teams) {
+            const output = document.getElementById("output");
+            output.innerHTML = ""; // Clear previous output
+
+            teams.forEach((team, index) => {
+                const teamDiv = document.createElement("div");
+                teamDiv.className = "team";
+                teamDiv.textContent = `Team ${index + 1}: ${team.join(", ")}`;
+                output.appendChild(teamDiv);
+            });
+        }
+
+        document.getElementById("generateTeams").addEventListener("click", generateTeams);
+    </script>
+</body>
+</html>
